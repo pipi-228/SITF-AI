@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stack In The Fire AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script>
+        function checkForm() {
+            let img_src = document.getElementById("img_src");
+
+            if (img_src.value == "") {
+                alert("Изображение не было загружено!");
+                event.preventDefault();
+            }
+        }
+        
+        function copyTxt() {
+            var copyTxt = document.getElementById("copy_txt");
+            copyTxt.select();
+            document.execCommand("copy");
+        }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+        <div {{ hide_image }}>
+            <img id="image" src="../static/{{ img_src }}" class="rounded mx-auto d-block" alt="image container" height="300" style="margin: 15px 0;">
+        </div>
+        <form action="/edit" enctype="multipart/form-data" method="post" name="upload" onsubmit="checkForm()">
+            <div class="input-group" style="margin-top: 30px;">
+                <input type="file" class="form-control" name="image" id="img_src" aria-describedby="image" aria-label="Upload">
+                <button class="btn btn-outline-primary" type="submit" id="upload" onclick="uploadImage()">Подтвердить</button>
+            </div>
+  
+            Язык:
+            <select id="lang_drop" name="lang_drop" class="btn btn-primary dropdown" style="margin: 15px;">
+                <option class="dropdown-item" selected value="ru" style="background-color: rgb(240, 240, 240); color: rgb(50, 50, 50)">Русский</option>
+                <option class="dropdown-item" value="en" style="background-color: rgb(240, 240, 240); color: rgb(50, 50, 50)">English</option>
+            </select>
+            
+            <div {{ hide_image }}>
+                <p>Объекты: {{ objs }}</p>
+                <p>Изображение:</p>
+                <img src="/static/{{ YOLO }}" class="rounded mx-auto d-block" alt="No objects on image found" height="300" style="margin: 15px 0;">
+
+                <p>Текст:<br></p>
+                <div class="input-group mb-3">
+                    <textarea id="copy_txt" class="form-control" placeholder="">{{ textedText }}</textarea>
+                    <button onclick="copyTxt()" class="btn btn-outline-secondary" type="button" id="copy_btn">Копировать</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
